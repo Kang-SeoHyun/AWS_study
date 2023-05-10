@@ -102,6 +102,7 @@ Presigned URL
     * 이미지를 사용한다면 CloudFront를 거의 무조건 사용해야한다~
 * cloudfront(global service)를 쓰려면 S3(global service)를 사용해야하고 버킷까지 만들어야합니다.
     * region에 대한 제약이 없다.
+    * region 구분이 없다고 알아두면 됨.
 
 
 ### ❓ EC2 ( Elastic Compute Cloud) 란
