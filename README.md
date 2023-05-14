@@ -1,5 +1,5 @@
 #  프리온보딩 백엔드 챌린지 - AWS
-## 🟡 AWS 이외에 CI/CD 같은 것도 공부해서 흐름 알기 🟡
+## 🟡 AWS 이외에 CI/CD 흐름 알기 🟡
 ## 목표:
 - AWS 인프라 하나하나에 대해서 깊게 파기보다는 전체적인 이해도에 중점
 - 한 대의 프로덕션 서버가 구성되기까지의과정을 이해하는 것
@@ -12,6 +12,6 @@
 서버전에 CI/CD 먼저 공부하기  
 <img width="477" alt="스크린샷 2023-05-10 오후 6 57 31" src="https://github.com/Kang-SeoHyun/Kang-SeoHyun/assets/77817094/ec00998b-8529-4750-bdf2-90d37d5ff5ed">
 
-## ❓궁금❓
-쿠버네티스(Kubernetes, k8s)란❓
-AWS -> 테라폼❓
+## 정립
+쿠버네티스(Kubernetes, k8s)
+AWS -> 테라폼
