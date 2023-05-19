@@ -1,5 +1,13 @@
 # 🫧 AWS 🫧
 
+```txt
+인프라 관련 요소들
+- AWS API Gateway
+- AWS S3
+- AWS ELB
+- AWS CloudFront
+- AWS Secret Manager
+```
 ### 🥊 On-premise **vs** Cloud Computing 🥊
 ```
 On-premise: 온프레미스란 기업의 서버를 클라우드 같은 원격 환경에서
