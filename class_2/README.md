@@ -204,3 +204,10 @@ serverless
 sls deploy #코드 넣고 이거 치면 만들어줌. AWS에서 확인 가능.
 ```
 
+# 👩🏻‍💻 과제 👩🏻‍💻
+## 백엔드에서 AWS 활용 🍉
+1. serverless(Lambda) 사용해서 API 서버를 구축해보기
+	- API 서버를 aws fargate / ECR 이용해서 띄워보기
+2. SNS 예시 파이프라인 구축해보기
+	- S3 presigned url 이용해서 S3에 이미지 업로드 (20개)
+	- 이미지가 업로드 되면 람다 트리거를 통해 image resizing 하는 로직 실행 후 S3에 크롭된 이미지 저장
