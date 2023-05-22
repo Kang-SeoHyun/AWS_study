@@ -197,7 +197,7 @@ Serverless Framework : <img width="100" alt="Screen Shot 2023-05-20 at 12 25 11 
 	* Python 계열 – FastAPI, Flask 등..
 3. 소규모 / 이용자가 많지 않은 서비스에서 가격 효율적으로 이용 가능
 
-AWS 람다 실제로 해보기 ~!
+serverless로 해보기 ~!
 ```cli 2:43분 쯤 부터, 서버리스 환경 세팅 3:04분 쯤 부터
 npm install -g serverless
 serverless
