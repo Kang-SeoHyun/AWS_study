@@ -145,36 +145,62 @@ Fargate: 0.18624 + 0.04088 ~= 0.227 USD
 5. 사용 예시
 	* 비동기 처리 (이미지 썸네일 생성)
 	* 예측이 불가능 한 리소스 사용 (대용량 처리 / 머신러닝)
+```
+최대 1000개까지 킬 수 있는데 이미지를 받는 S3에서 람다를 키고 이미지를 분류한 뒤 DB에 저장.
+-> 람다로 분산처리를 한다고 알면 됨.
+-> 코드뭉치 실행기다 라고 알면 됨.
+-> 서버리스 서비스
+람다에 올라갈 수 있는 코드 용량이 정해져(250MB?)있는데 그 이상이 넘어가면 분류를 해야한다.
+```
+<img width="800" alt="스크린샷 2023-05-22 오후 11 17 06" src="https://github.com/Kang-SeoHyun/Kang-SeoHyun/assets/77817094/bd8d6ad3-1ad4-4b22-bd79-9091dbcbbb70">
 
 ### ❓왜 항상 켜져있어야 하는 EC2 / Elastic Beanstalk 대신에 가성비 있는 Lambda을 선택하지 않을까❓
+```
+함수를 실행시키는 서비스다보니 계속 떠있는게 아니라 계속 죽는다. 계속 warm하게 유지 시키기엔 Latency가
+높아서 서버로 사용하기에는 부적절하다.
+```
 
-### Cold Start / Warm Start
+### ❄️ Cold Start / Warm Start 🔥
 * 기본적으로 EC2와 같은 인스턴스보다는 Latency가 높다.
-* 콜드 스타트: 배포 패키지의 크기와 코드 실행 시간 및 코드의 초기화 시간에 따라 새 실행 환경으로 호출을 라우팅할 때 지연 시간이 발생하는 람다 호출 시작 (겨울에 자동차 시동 걸때에서 유래 됨)
-* 5분정도 warm하게 유지
+* Cold start : 배포 패키지의 크기와 코드 실행 시간 및 코드의 초기화 시간에 따라 새 실행 환경으로 호출을 라우팅할 때 지연 시간이 발생하는 람다 호출 시작 (겨울에 자동차 시동 걸때에서 유래 됨)
+* 5분정도 warm하게 유지 -> 램에 올라가 있는 상태 -> 이땐 반응이 좀 빠름.
 * 계속 warm하게 유지하기 위해선 지속적으로 사용해야 하는 방법밖엔 없음
+* 웜은 단축시킬 수 있는데 콜드는 단축이 불가능 함.
+	* 어쨌든 그래도 15분 뒤에 끝나서 콜드가 뜨게 됨.
 
+1. 아무것도 실행을 하지 않았을 때 :
 
-Cold Start / Warm Start
+	<img width="400" alt="Screen Shot 2023-05-20 at 12 22 30 AM" src="https://github.com/Kang-SeoHyun/Kang-SeoHyun/assets/77817094/4c0dafdf-313c-4e9f-a418-22b7edb54f73">
 
-<img width="400" alt="Screen Shot 2023-05-20 at 12 22 30 AM" src="https://github.com/Kang-SeoHyun/Kang-SeoHyun/assets/77817094/4c0dafdf-313c-4e9f-a418-22b7edb54f73">
+	어느 정도는 따듯하게 유지가 된다. (짧음)
 
-<img width="400" alt="Screen Shot 2023-05-20 at 12 22 43 AM" src="https://github.com/Kang-SeoHyun/Kang-SeoHyun/assets/77817094/1c17c638-dc04-41f4-bbfc-4c1785e6939d">
+2. 아무것도 올라가 있지 않았을 때 언어별로 얼마나 오래 걸리는 지 :
 
-일반 적인 서버 latency: 100ms 이하
+	<img width="400" alt="Screen Shot 2023-05-20 at 12 22 43 AM" src="https://github.com/Kang-SeoHyun/Kang-SeoHyun/assets/77817094/1c17c638-dc04-41f4-bbfc-4c1785e6939d">
 
-상황
-1. 만약에 하루에 request가 10000개 밖에 안온다 (많이 사용하지 않는 서비스 / API / 기능이다)
-2. 병렬처리 (youtube에 영상을 올리면 1080p, 720p로 인코딩 되는 상황)
+	도커는 상당히 오래걸리는 걸 확인 가능, 자바도 느립니당 그래서 보통 람다를 쓸 때 파이썬이나 node.js를 씁니다.
 
-## AWS Lambda - Serverless
+✍🏻 사용 예시 : 일반적인 서버 latency는 보통 100ms 이하지만 람다는 거기 앞에 1이 붙는다 생각하면 됨. - 응답속도 느림
+1. 만약에 하루에 request가 10000개 밖에 안온다. (많이 사용하지 않는 서비스, API, 기능)
+2. 병렬처리 (머신러닝이나 youtube에 영상을 올리면 1080p, 720p로 인코딩 되는 분류 상황)
+3. 비동기로 돌아가는 건 다 람다라고 보면 될 것 같음.
+
+## 🐍 AWS Lambda - Serverless 🐍
 Serverless Framework : <img width="100" alt="Screen Shot 2023-05-20 at 12 25 11 AM" src="https://github.com/Kang-SeoHyun/Kang-SeoHyun/assets/77817094/a082cebd-b020-4618-84b3-4599f8a004c1">
 
+특징 📋 :
 1. AWS, Azure, GCP 등의 서버리스 서비스를 쉽게 사용할 수 있도록 도와주는 오픈소스 프레임 워크
-
+	* 람다를 쉽게 배포할 수 있도록 도와주는 프레임 워크
 2. 사용 가능 서버:
-* Node 계열 – ExpressJS, NestJS 등..
-* Java 계열 – Spring(Spring Cloud Function),
-* Python 계열 – FastAPI, Flask 등..
-
+	* Node 계열 – ExpressJS, NestJS 등..
+	* Java 계열 – Spring(Spring Cloud Function),
+	* Python 계열 – FastAPI, Flask 등..
 3. 소규모 / 이용자가 많지 않은 서비스에서 가격 효율적으로 이용 가능
+
+AWS 람다 실제로 해보기 ~!
+```cli 2:43분 쯤 부터, 서버리스 환경 세팅 3:04분 쯤 부터
+npm install -g serverless
+serverless
+sls deploy #코드 넣고 이거 치면 만들어줌. AWS에서 확인 가능.
+```
+
